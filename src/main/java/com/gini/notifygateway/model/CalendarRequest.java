@@ -1,6 +1,6 @@
-package com.gini.notifyGateway.model;
+package com.gini.notifygateway.model;
 
-import com.gini.notifyGateway.utils.UUIDGenerator;
+import com.gini.notifygateway.utils.UUIDGenerator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -105,16 +105,20 @@ public class CalendarRequest {
         }
 
         public Builder withStartTime(String val) {
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-            LocalDateTime dateTime = LocalDateTime.parse(val, formatter);
-            startTime = dateTime;
+            if(!val.equals("")){
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+                LocalDateTime dateTime = LocalDateTime.parse(val, formatter);
+                startTime = dateTime;
+            }
             return this;
         }
 
         public Builder withEndTime(String val) {
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-            LocalDateTime dateTime = LocalDateTime.parse(val, formatter);
-            endTime = dateTime;
+            if(!val.equals("")) {
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+                LocalDateTime dateTime = LocalDateTime.parse(val, formatter);
+                endTime = dateTime;
+            }
             return this;
         }
 

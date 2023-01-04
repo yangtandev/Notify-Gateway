@@ -1,7 +1,7 @@
-package com.gini.notifyGateway.dao;
+package com.gini.notifygateway.dao;
 
-import com.gini.notifyGateway.config.SchemaConfig;
-import com.gini.notifyGateway.model.Sgsms;
+import com.gini.notifygateway.config.SchemaConfig;
+import com.gini.notifygateway.model.Sgsms;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;

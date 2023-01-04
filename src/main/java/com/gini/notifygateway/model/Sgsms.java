@@ -1,4 +1,4 @@
-package com.gini.notifyGateway.model;
+package com.gini.notifygateway.model;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;

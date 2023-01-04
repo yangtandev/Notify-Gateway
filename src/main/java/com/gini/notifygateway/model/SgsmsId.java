@@ -1,4 +1,4 @@
-package com.gini.notifyGateway.model;
+package com.gini.notifygateway.model;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;

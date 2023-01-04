@@ -1,4 +1,4 @@
-package com.gini.notifyGateway.exception;
+package com.gini.notifygateway.exception;
 
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.databind.jsontype.impl.TypeIdResolverBase;

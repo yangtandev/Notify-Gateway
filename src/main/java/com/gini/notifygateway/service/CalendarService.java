@@ -1,6 +1,6 @@
-package com.gini.notifyGateway.service;
+package com.gini.notifygateway.service;
 
-import com.gini.notifyGateway.model.CalendarRequest;
+import com.gini.notifygateway.model.CalendarRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.mail.javamail.JavaMailSender;

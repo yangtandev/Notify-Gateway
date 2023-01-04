@@ -1,4 +1,4 @@
-package com.gini.notifyGateway.exception;
+package com.gini.notifygateway.exception;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

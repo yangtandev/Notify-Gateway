@@ -1,4 +1,4 @@
-package com.gini.notifyGateway;
+package com.gini.notifygateway;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -8,13 +8,16 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.context.annotation.Bean;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
+@EnableScheduling
 @SpringBootApplication
 public class NotifyGatewaySpringBootApp extends SpringBootServletInitializer {
     public static final Logger logger = LoggerFactory.getLogger(NotifyGatewaySpringBootApp.class);
 
     public static void main(String[] args) {
         SpringApplication.run(NotifyGatewaySpringBootApp.class, args);
+
     }
 
     @Override
@@ -25,7 +28,6 @@ public class NotifyGatewaySpringBootApp extends SpringBootServletInitializer {
     @Bean
     public CommandLineRunner initData() {
         return (args) -> {
-
         };
     }
 }

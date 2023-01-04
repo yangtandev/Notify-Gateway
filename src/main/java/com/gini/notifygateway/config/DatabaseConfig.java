@@ -1,4 +1,4 @@
-package com.gini.notifyGateway.config;
+package com.gini.notifygateway.config;
 
 import javax.sql.DataSource;
 

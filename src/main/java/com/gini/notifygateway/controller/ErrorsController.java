@@ -1,4 +1,4 @@
-package com.gini.notifyGateway.controller;
+package com.gini.notifygateway.controller;
 
 import org.springframework.boot.web.servlet.error.ErrorController;
 import org.springframework.http.HttpStatus;

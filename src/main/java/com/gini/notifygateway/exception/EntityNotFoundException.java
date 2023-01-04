@@ -1,4 +1,4 @@
-package com.gini.notifyGateway.exception;
+package com.gini.notifygateway.exception;
 
 import org.apache.commons.lang3.StringUtils;
 

@@ -1,4 +1,4 @@
-package com.gini.notifyGateway.utils;
+package com.gini.notifygateway.utils;
 
 import java.text.DateFormat;
 import java.text.ParseException;

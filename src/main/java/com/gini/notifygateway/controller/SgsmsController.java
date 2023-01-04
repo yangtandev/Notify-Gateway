@@ -1,9 +1,9 @@
-package com.gini.notifyGateway.controller;
+package com.gini.notifygateway.controller;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.gini.notifyGateway.dao.SgsmsRepository;
-import com.gini.notifyGateway.exception.RestExceptionHandler;
+import com.gini.notifygateway.dao.SgsmsRepository;
+import com.gini.notifygateway.exception.RestExceptionHandler;
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.Unirest;
 import net.minidev.json.JSONObject;
@@ -93,6 +93,7 @@ public class SgsmsController extends RestExceptionHandler {
                 CloseableHttpClient httpclient = HttpClients.custom().setSSLSocketFactory(sslsf).build();
                 Unirest.setHttpClient(httpclient);
                 String url = SET_SMS_URL;
+//                String url = "https://httpbin.org/post";
                 String apiKey = API_KEY;
                 String hid = HID;
                 String apid = APID;
@@ -120,6 +121,8 @@ public class SgsmsController extends RestExceptionHandler {
                         String id = rsvID;
                         String success = resultMap.get("success");
                         String msg = resultMap.get("msg");
+//                        String success = "Y";
+//                        String msg = rsvID + "'s SMS has been successfully sent!";
                         LocalDateTime time = LocalDateTime.parse(sendtm, formatter);
                         // API 若呼叫成功，則存入資料庫，並印出回傳值。
 //                      sgsmsRepository.save(new Sgsms(id, content, success, msg, time));
