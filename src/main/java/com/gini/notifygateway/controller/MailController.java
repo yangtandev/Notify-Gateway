@@ -8,9 +8,13 @@ import com.gini.notifygateway.service.CalendarService;
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.Unirest;
 import net.minidev.json.JSONObject;
+import org.apache.http.conn.ssl.NoopHostnameVerifier;
 import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
+import org.apache.http.conn.ssl.TrustSelfSignedStrategy;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
+import org.apache.http.ssl.SSLContextBuilder;
+import org.apache.http.ssl.SSLContexts;
 import org.json.JSONArray;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -82,24 +86,11 @@ public class MailController extends RestExceptionHandler {
     public void getMailList() {
         mailList.clear();
         try {
-            TrustManager[] trustAllCerts = new TrustManager[]{
-                new X509TrustManager() {
-                    public java.security.cert.X509Certificate[] getAcceptedIssuers() {
-                        return null;
-                    }
-
-                    public void checkClientTrusted(X509Certificate[] certs, String authType) {
-                    }
-
-                    public void checkServerTrusted(X509Certificate[] certs, String authType) {
-                    }
-                }
-            };
-            SSLContext sslcontext = SSLContext.getInstance("SSL");
-            sslcontext.init(null, trustAllCerts, new java.security.SecureRandom());
-            HttpsURLConnection.setDefaultSSLSocketFactory(sslcontext.getSocketFactory());
-            SSLConnectionSocketFactory sslsf = new SSLConnectionSocketFactory(sslcontext);
-            CloseableHttpClient httpclient = HttpClients.custom().setSSLSocketFactory(sslsf).build();
+            SSLContext sslContext = new SSLContextBuilder()
+                .loadTrustMaterial(null, (certificate, authType) -> true).build();
+            CloseableHttpClient httpclient = HttpClients.custom().setSSLContext(sslContext)
+                .setSSLHostnameVerifier(new NoopHostnameVerifier())
+                .build();
             Unirest.setHttpClient(httpclient);
             String url = GET_MAIL_URL;
 //            String apiKey = API_KEY;
@@ -118,11 +109,15 @@ public class MailController extends RestExceptionHandler {
                     .body(object.toString())
                     .asString();
                 if (response.getStatus() == 200) {
+                    logger.info("certificate status OK!");
                     ObjectMapper objectMapper = new ObjectMapper();
                     Map<String, Object> result = objectMapper.readValue(response.getBody(), new TypeReference<Map<String, Object>>() {
                     });
+                    logger.info("result {}", result);
                     if (result.get("success").equals("Y")) {
+                        logger.info("certificate result OK!");
                         List<Map<String, String>> resultList = (List<Map<String, String>>) result.get("resultList");
+                        logger.info("resultList {}", resultList);
                         if (resultList.size() > 0) {
                             for (Map<String, String> resultMap : resultList) {
                                 String userid = resultMap.get("USERID").trim();
@@ -159,7 +154,7 @@ public class MailController extends RestExceptionHandler {
         String content = "";
         String method = "";
 
-        switch (sendMailMap.get("method").toString().toUpperCase()) {
+        switch (sendMailMap.get("method").toString().toUpperCase(Locale.ENGLISH)) {
             case "ADD":
                 content = ADD_EVENT;
                 method = "REQUEST";
