@@ -69,10 +69,10 @@ public class MailController extends RestExceptionHandler {
 //    @Value("${spring.mail.password}")
 //    private String PASSWORD;
     // 測試收發用信箱。
-    @Value("${spring.mail.testMail1}")
-    private String TESTMAIL1;
-    @Value("${spring.mail.testMail2}")
-    private String TESTMAIL2;
+//    @Value("${spring.mail.testMail1}")
+//    private String TESTMAIL1;
+//    @Value("${spring.mail.testMail2}")
+//    private String TESTMAIL2;
 
     // 每小時自動更新 mailList。
     @Scheduled(cron = "0 0 * * * ?", zone = "Asia/Taipei")
@@ -86,9 +86,9 @@ public class MailController extends RestExceptionHandler {
                 .build();
             Unirest.setHttpClient(httpclient);
             String url = GET_MAIL_URL;
-//            String apiKey = API_KEY;
+            String apiKey = API_KEY;
 //            String url = "http://localhost:8080/sgs/notifyGateway/getEREmp";
-            String apiKey = "7d08ee30-acf1-4a6b-99d6-7596c7a45fb6";
+//            String apiKey = "7d08ee30-acf1-4a6b-99d6-7596c7a45fb6";
             String hid = HID;
             String apid = APID;
             for (String costid : costids) {
@@ -102,15 +102,15 @@ public class MailController extends RestExceptionHandler {
                     .body(object.toString())
                     .asString();
                 if (response.getStatus() == 200) {
-                    logger.info("certificate status OK!");
+                    logger.info("mail certificate status OK!");
                     ObjectMapper objectMapper = new ObjectMapper();
                     Map<String, Object> result = objectMapper.readValue(response.getBody(), new TypeReference<Map<String, Object>>() {
                     });
-                    logger.info("result {}", result);
+                    logger.info("mail result {}", result);
                     if (result.get("success").equals("Y")) {
-                        logger.info("certificate result OK!");
+                        logger.info("mail certificate result OK!");
                         List<Map<String, String>> resultList = (List<Map<String, String>>) result.get("resultList");
-                        logger.info("resultList {}", resultList);
+                        logger.info("mail resultList {}", resultList);
                         if (resultList.size() > 0) {
                             for (Map<String, String> resultMap : resultList) {
                                 String userid = resultMap.get("USERID").trim();
@@ -125,7 +125,7 @@ public class MailController extends RestExceptionHandler {
                     }
                 }
             }
-            logger.info("updateTime {}", LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss")));
+            logger.info("mail updateTime {}", LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss")));
             logger.info("mailList {}", mailList);
         } catch (Exception e) {
             logger.error("UnknownHostException", e);
@@ -171,22 +171,22 @@ public class MailController extends RestExceptionHandler {
         CalendarService calendarService = new CalendarService(mailSender);
 
         // 信箱測試，無論是否反查到 mailList，皆寄出信。
-        for (String mail : new String[]{TESTMAIL1, TESTMAIL2}) {
-            calendarService.sendCalendarInvite(
-                FROM_EMAIL,
-                new CalendarRequest.Builder()
-                    .withStartTime(sendMailMap.get("startTime").toString())
-                    .withEndTime(sendMailMap.get("endTime").toString())
-                    .withToEmail(mail)
-                    .withUid(sendMailMap.get("uid").toString())
-                    .withLocation(sendMailMap.get("location").toString())
-                    .withSubject(sendMailMap.get("subject").toString())
-                    .withBody("您好, " + content)
-                    .withMethod(method)
-                    .build(),
-                ORGANIZER
-            );
-        }
+//        for (String mail : new String[]{TESTMAIL1, TESTMAIL2}) {
+//            calendarService.sendCalendarInvite(
+//                FROM_EMAIL,
+//                new CalendarRequest.Builder()
+//                    .withStartTime(sendMailMap.get("startTime").toString())
+//                    .withEndTime(sendMailMap.get("endTime").toString())
+//                    .withToEmail(mail)
+//                    .withUid(sendMailMap.get("uid").toString())
+//                    .withLocation(sendMailMap.get("location").toString())
+//                    .withSubject(sendMailMap.get("subject").toString())
+//                    .withBody("您好, " + content)
+//                    .withMethod(method)
+//                    .build(),
+//                ORGANIZER
+//            );
+//        }
 
         // 如果 mailList 無值，則重新獲取 mail 資訊。
         if (mailList.size() == 0) {
@@ -206,20 +206,20 @@ public class MailController extends RestExceptionHandler {
 
                     if (userList.contains(userid)) {
                         sentMailList.add(mailMap);
-//                        calendarService.sendCalendarInvite(
-//                            FROM_EMAIL,
-//                            new CalendarRequest.Builder()
-//                                .withStartTime(sendMailMap.get("startTime").toString())
-//                                .withEndTime(sendMailMap.get("endTime").toString())
-//                                .withToEmail(mail)
-//                                .withUid(sendMailMap.get("uid").toString())
-//                                .withLocation(sendMailMap.get("location").toString())
-//                                .withSubject(sendMailMap.get("subject").toString())
-//                                .withBody(userid + " 您好, " + content)
-//                                .withMethod(method)
-//                                .build(),
-//                            ORGANIZER
-//                        );
+                        calendarService.sendCalendarInvite(
+                            FROM_EMAIL,
+                            new CalendarRequest.Builder()
+                                .withStartTime(sendMailMap.get("startTime").toString())
+                                .withEndTime(sendMailMap.get("endTime").toString())
+                                .withToEmail(mail)
+                                .withUid(sendMailMap.get("uid").toString())
+                                .withLocation(sendMailMap.get("location").toString())
+                                .withSubject(sendMailMap.get("subject").toString())
+                                .withBody(userid + " 您好, " + content)
+                                .withMethod(method)
+                                .build(),
+                            ORGANIZER
+                        );
                     }
                 }
 
